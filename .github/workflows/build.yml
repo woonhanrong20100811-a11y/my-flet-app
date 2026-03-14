@@ -6,20 +6,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 1. 设置 Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
+      # 2. 设置 Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
+      # 3. 设置 Android SDK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      # 4. 安装 Flet
       - name: Install Flet
         run: pip install flet
 
+      # 5. 执行构建（这次去掉 -y，依靠我们上面安装好的环境）
       - name: Build APK
-        # 加入了 -y 参数来自动同意安装依赖，不阻塞进程
-        run: flet build apk --module main.py -y
+        run: flet build apk --module main.py
