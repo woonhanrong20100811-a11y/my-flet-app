@@ -15,9 +15,9 @@ jobs:
       - run: pip install flet
       - run: flet build apk --module main.py
       
-      # 重点在这里：这一步负责把生成的APK文件抓出来放在Artifacts里
+      # 这一次我们使用通配符查找，确保一定能抓到 APK 文件
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: my-app-apk
-          path: build/apk/app-release.apk
+          path: build/**/output/apk/**/*.apk
