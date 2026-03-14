@@ -5,7 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: flet-dev/build-flet-app-action@v1
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          module_name: 'main.py'
-          target: 'apk'
+          python-version: '3.11'
+      - name: Install Flet
+        run: |
+          pip install flet
+      - name: Build APK
+        run: |
+          flet build apk --module main.py
