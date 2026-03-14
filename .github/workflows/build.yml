@@ -5,13 +5,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          python-version: '3.11'
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
       - name: Install Flet
-        run: |
-          pip install flet
+        run: pip install flet
+
       - name: Build APK
-        run: |
-          flet build apk --module main.py
+        # 加入了 -y 参数来自动同意安装依赖，不阻塞进程
+        run: flet build apk --module main.py -y
